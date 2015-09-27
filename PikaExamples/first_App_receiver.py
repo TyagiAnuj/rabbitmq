@@ -23,7 +23,7 @@ def callback(channel,method,properties,body):
     print "[x] {} finished executing the task".format(datetime.now())
 
 print ' [*] Waiting for messages. To exit press CTRL+C'
-channel.basic_consume(consumer_callback=callback,queue='hello',no_ack=True)
+channel.basic_consume(consumer_callback=callback,queue='hello')
 channel.start_consuming()
 
 
