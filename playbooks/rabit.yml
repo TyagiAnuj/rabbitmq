@@ -1,0 +1,54 @@
+- name: Configure RabitMQ
+  hosts: rabit
+  sudo: True
+  tasks:
+    - name: install dependencies
+      yum:
+        name={{ item }}
+        state=installed
+      with_items:
+        - epel-release
+        - erlang
+
+
+#    - name: Download rabbitMQ server
+#      command: wget https://www.rabbitmq.com/releases/rabbitmq-server/v3.5.5/rabbitmq-server-3.5.5-3.noarch.rpm
+#      args:
+#        chdir: /usr/local
+#        creates: rabbitmq-server-3.5.5-3.noarch.rpm
+
+#    - name: Sign the rabbitMQ server
+#      command: rpm --import https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+#      args:
+#        chdir: /usr/local
+#
+#    - name: install the rabbitmq rpm
+#      command: yum -y install /usr/local/rabbitmq-server-3.5.5-3.noarch.rpm
+
+    - name: Open firewall ports
+      firewalld:
+        port={{ item }}/tcp
+        permanent=true
+        state=enabled
+        immediate=true
+      with_items:
+        - 4369
+        - 25672
+        - 5672
+        - 5671
+        - 21
+
+    - name: Add rabitMQ user
+      rabbitmq_user:
+        user=rmq_root
+        password=112233
+        configure_priv=.*
+        read_priv=.*
+        write_priv=.*
+        state=present
+
+
+
+
+
+
