@@ -21,6 +21,7 @@ def callback(channel,method,properties,body):
     print "{} Executing job , it will take approximately {} seconds to complete".format(datetime.now(),body.count('.'))
     time.sleep(body.count('.'))
     print "[x] {} finished executing the task".format(datetime.now())
+    channel.basic_ack(delivery_tag=method.delivery_tag)
 
 print ' [*] Waiting for messages. To exit press CTRL+C'
 channel.basic_consume(consumer_callback=callback,queue='hello')
