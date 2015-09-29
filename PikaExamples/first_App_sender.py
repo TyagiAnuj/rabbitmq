@@ -8,6 +8,7 @@ message_properties=pika.BasicProperties(delivery_mode=2)
 #connecting to the channel
 connection = pika.BlockingConnection(server_parameters)
 channel = connection.channel()
+channel.basic_qos(prefetch_count=1)
 
 #Create queue to send messages to,
 # (If we send a message to non-existing location,

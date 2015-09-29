@@ -10,6 +10,7 @@ parameters=pika.ConnectionParameters(host='192.168.122.2',credentials=my_credent
 #connecting to the rabbitMQ and getting channel
 connection=pika.BlockingConnection(parameters=parameters)
 channel=connection.channel()
+channel.basic_qos(prefetch_count=1)
 
 
 #define calback functions to activate whenever new messages arrive
